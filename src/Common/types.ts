@@ -1,7 +1,7 @@
 import { 
   WAMessage, 
   WASocket 
-} from "baileys-mod";
+} from "baileys";
 
 export interface BotContext {
   sock: WASocket;
@@ -16,5 +16,5 @@ export interface BotEvents {
 export interface ICommand {
   name: string;
   description: string;
-  ren: (ctx: BotContext, msg: WAMessage, args: string[]) => Promise<void>;
+  run: (ctx: BotContext, msg: WAMessage, args: string[]) => Promise<void>;
 }

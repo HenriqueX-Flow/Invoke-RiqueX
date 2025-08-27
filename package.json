@@ -1,0 +1,39 @@
+{
+  "name": "invoke-riquex",
+  "version": "1.0.0",
+  "description": "Bot De WhatsApp Em TypeScript",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HenriqueX-Flow/Invoke-RiqueX.git"
+  },
+  "keywords": [],
+  "author": "HenriqueX",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/HenriqueX-Flow/Invoke-RiqueX/issues"
+  },
+  "homepage": "https://github.com/HenriqueX-Flow/Invoke-RiqueX#readme",
+  "dependencies": {
+    "awesome-phonenumber": "^7.5.0",
+    "baileys": "^6.7.18",
+    "chalk": "^5.6.0",
+    "cheerio": "^1.1.2",
+    "file-type": "^21.0.0",
+    "jimp": "^0.16.13",
+    "node-fetch": "^3.3.2",
+    "qrcode-terminal": "^0.12.0",
+    "tsx": "^4.20.5",
+    "yargs": "github:yargs/yargs"
+  },
+  "devDependencies": {
+    "@types/node": "^24.3.0",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.9.2"
+  }
+}
