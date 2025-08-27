@@ -16,5 +16,7 @@ export interface BotEvents {
 export interface ICommand {
   name: string;
   description: string;
+  category: "admin" | "general" | "fun";
+  aliases?: string[];
   run: (ctx: BotContext, msg: WAMessage, args: string[]) => Promise<void>;
 }
