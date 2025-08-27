@@ -5,7 +5,7 @@ const Ban: ICommand = {
   description: "Remove O Usuário Do Grupo.",
   category: "admin",
   aliases: ["remove", "kick"],
-  async run(ctx, msg, args) {
+  async run(ctx, msg) {
     const jid = msg.key.remoteJid!;
     if (!jid.endsWith("@g.us")) {
       await ctx.sock.sendMessage(jid, {

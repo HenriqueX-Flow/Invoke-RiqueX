@@ -1,3 +1,4 @@
+import { Consolefy } from "@mengkodingan/consolefy";
 import { Bot } from "../Common/bot"
 
 export default function register(bot: Bot) {
