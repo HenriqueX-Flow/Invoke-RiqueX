@@ -3,48 +3,47 @@
 <img src="./media/header.jpg" width="500">
 </div>
 <p align="center">
-  <b>Bot de WhatsApp baseado em Baileys</b><br>
-  Desenvolvido em <code>Node.js</code> + <code>TypeScript</code><br>
-  Suporte a Plugins Dinâmicos 🚀
+  <b>Bot de WhatsApp Baseado Em Baileys</b><br>
+  Desenvolvido Em <code>Node.js</code> + <code>TypeScript</code><br>
+  Suporte A Comandos Modulares ⚙️
 </p>
 
 ---
 
-## 📖 Sobre o Projeto
+## 🦾 Sobre O Projeto
 
 O **Invoke-RiqueX** é um bot de WhatsApp rápido e modular feito em **Node.js** utilizando a biblioteca **Baileys**.  
 Ele oferece comandos dinâmicos, autenticação por número/QR Code e um sistema de menus.
 
 ---
 
-## 🛠️ Tecnologias Utilizadas
+## ⚙️ Tecnologias Utilizadas
 
 - [Node.js](https://nodejs.org/)
 - [Baileys](https://github.com/WhiskeySockets/Baileys)
 - [TypeScript](https://www.typescriptlang.org/)
 - [Termux](https://termux.dev/en/)
-- Git / GitHub para versionamento
 
 ---
 
 ## 🚀 Como Instalar
 
 ```bash
-# Clone o repositório
+# Clone O Repositório
 git clone https://github.com/HenriqueX-Flow/Invoke-RiqueX.git
 cd Invoke-RiqueX
 
-# Instale as dependências
+# Instale As Dependências
 npm install
 
-# Inicie o bot em modo desenvolvimento
+# Inicie O Bot Em Modo Desenvolvimento
 npm run dev
 ```
 
-### Rodando em JavaScript
+### Rodando Em JavaScript
 
 ```bash
-# Clone o repositório
+# Clone O Repositório 
 git clone https://github.com/HenriqueX-Flow/Invoke-RiqueX.git
 cd Invoke-RiqueX
 npm install
@@ -55,11 +54,11 @@ npm start
 
 ## ✨ Funcionalidades
 
-- Suporte a plugins e comandos dinâmicos
-- Sistema modular e fácil de personalizar
-- Envio e resposta de mensagens, imagens e vídeos
-- Sistema de menus e respostas automáticas
-- Facilidade de pareamento via QR Code
+- Suporte A Comandos Dinâmicos
+- Sistema Modular E Fácil De Personalizar
+- Envio E Resposta De Mensagens, Imagens E Vídeos
+- Sistema De Menus E Resposta Automáticas
+- Facilidade De Pareamento Via QR Code
 
 ---
 
@@ -70,8 +69,10 @@ npm start
 - pino
 - qrcode-terminal
 - @mengkodingan/consolefy
+- axios
+- cheerio
 
-Veja o [package.json](https://github.com/HenriqueX-Flow/Invoke-RiqueX/blob/main/package.json) para a lista completa.
+Veja O [package.json](https://github.com/HenriqueX-Flow/Invoke-RiqueX/blob/main/package.json) Para A Lista Completa.
 
 ---
 
@@ -80,10 +81,3 @@ Veja o [package.json](https://github.com/HenriqueX-Flow/Invoke-RiqueX/blob/main/
 MIT
 
 ---
-
-Acesse o repositório para mais detalhes:  
-https://github.com/HenriqueX-Flow/Invoke-RiqueX
-
----
-
-Resultados de busca podem estar incompletos. Veja tudo no [GitHub Code Search](https://github.com/HenriqueX-Flow/Invoke-RiqueX/search?q=baileys).
