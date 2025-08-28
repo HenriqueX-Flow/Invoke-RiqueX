@@ -1,16 +1,15 @@
 import { ICommand } from "../Common/types";
+import { sendReply } from "../Utils/message";
 
 const Ban: ICommand = {
   name: "ban",
   description: "Remove O Usuário Do Grupo.",
-  category: "admin",
+  category: "admins",
   aliases: ["remove", "kick"],
   async run(ctx, msg) {
     const jid = msg.key.remoteJid!;
     if (!jid.endsWith("@g.us")) {
-      await ctx.sock.sendMessage(jid, {
-        text: "Esse Comando Só Pode Ser Usado Em Grupos"
-      }, { quoted: msg });
+      await sendReply(ctx, "Esse Comando Só Pode Ser Usado Em Grupos.", msg);
       return;
     }
 

@@ -5,15 +5,15 @@ import fs from "fs";
 const Help: ICommand = {
   name: "help",
   description: "Mostra A Lista De Comandos",
-  category: "general",
+  category: "basicos",
   async run(ctx, msg) {
     const jid = msg.key.remoteJid!;
     const bot = (ctx as any).bot as Bot;
 
-    const grouped: Record<string, ICommand[]> = {};
+   const grouped: Record<string, ICommand[]> = {};
     for (const cmd of new Set(bot.commands.values())) {
       if (!grouped[cmd.category]) grouped[cmd.category] = [];
-    grouped[cmd.category].push(cmd);
+      grouped[cmd.category].push(cmd);
     }
 
     let helpText = "Lista De Comandos:\n\n";
@@ -21,7 +21,7 @@ const Help: ICommand = {
       helpText += `*${category.toUpperCase()}*\n`;
       for (const cmd of grouped[category]) {
         const aliasText = cmd.aliases ? ` (aliases: ${cmd.aliases.map(a => ":" + a).join(", ")})` : "";
-        helpText = `• :${cmd.name}${aliasText} - ${cmd.description}\n`
+        helpText += `• :${cmd.name} - ${cmd.description}\n`;
       }
       helpText += "\n";
     }
@@ -31,7 +31,7 @@ const Help: ICommand = {
       fileName: "Invoke RiqueX",
       mimetype: "application/pdf",
       //@ts-ignore
-      fileLength: "2450000000",
+      fileLength: "245000000",
       pageCount: "245",
       caption: helpText,
       contextInfo: {

@@ -1,0 +1,54 @@
+import cp from "child_process";
+import { promisify } from "util";
+import { ICommand } from "../Common/types";
+import { getSender, sendReply } from "../Utils/message";
+
+const exec = promisify(cp.exec).bind(cp);
+const OWNER_JID = "558888205721@s.whatsapp.net";
+
+const Exec: ICommand = {
+  name: "exec",
+  description: "Executa Comandos No Terminal",
+  category: "criador",
+  async run(ctx, msg, args, text) {
+    const jid = msg.key.remoteJid!;
+    const sender = getSender(msg);
+
+    if (sender !== OWNER_JID) {
+      await ctx.sock.sendMessage(jid, {
+        text: "Somente o criador pode usar"
+      });
+      return;
+    }
+
+    const cmd = args?.join(" ");
+    if (!cmd) {
+      await sendReply(ctx, "Digite um comando para executar", msg);
+      return;
+    }
+
+    let o;
+    try {
+      o = await exec(cmd, { timeout: 5000, maxBuffer: 1024 * 1024 });
+    } catch (e: any) {
+      o = e;
+    } finally {
+      const stdout = o.stdout ? o.stdout.toString().trim() : "";
+      const stderr = o.stderr ? o.stderr.toString().trim() : "";
+
+      if (stdout) {
+        await ctx.sock.sendMessage(jid, {
+          text: "✅ Saída:\n" + stdout.slice(0, 4000)
+        });
+      }
+
+      if (stderr) {
+        await ctx.sock.sendMessage(jid, {
+          text: "⚠️ Erro:\n" + stderr.slice(0, 4000)
+        });
+      }
+    }
+  },
+};
+
+export default Exec;

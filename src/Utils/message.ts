@@ -10,6 +10,34 @@ export async function sendMsg(
   await ctx.sock.sendMessage(jid, { text }, { quoted: msg });
 }
 
+export async function sendReply(
+  ctx: BotContext,
+  text: string,
+  msg: proto.IWebMessageInfo
+) {
+  const jid = msg.key.remoteJid!;
+  await ctx.sock.sendMessage(
+    jid,
+    {
+      text,
+      contextInfo: {
+        isForwarded: true,
+        forwardingScore: 245,
+        externalAdReply: {
+          mediaUrl: "https://github.com/HenriqueX-Flow",
+          mediaType: 2,
+          //@ts-ignore
+          previewType: "pdf",
+          title: "Invoke RiqueX",
+          body: "© HenriqueX",
+          thumbnailUrl: "https://files.catbox.moe/y12axo.png",
+          sourceUrl: "https://github.com/HenriqueX-Flow",
+        }
+      }
+    },
+    { quoted: msg }
+  );
+}
 export function isImage(msg: WAMessage): boolean {
   return (
     !!msg.message?.imageMessage ||
@@ -19,6 +47,10 @@ export function isImage(msg: WAMessage): boolean {
 
 export function isVideo(msg: WAMessage): boolean {
   return ( !!msg.message?.imageMessage || !!msg.message?.extendedTextMessage?.contextInfo?.quotedMessage?.videoMessage)
+}
+
+export function getSender(msg: any) {
+  return msg.key.participant || msg.key.remoteJid;
 }
 
 /**

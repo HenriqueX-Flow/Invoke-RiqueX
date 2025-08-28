@@ -1,4 +1,7 @@
 <h1 align="center">🤖 Invoke-RiqueX</h1>
+<div align="center">
+<img src="./media/header.jpg" whidh="500">
+</div>
 <p align="center">
   <b>Bot de WhatsApp baseado em Baileys</b><br>
   Desenvolvido em <code>Node.js</code> + <code>TypeScript</code><br>

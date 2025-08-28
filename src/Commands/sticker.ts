@@ -5,7 +5,7 @@ import { imageToWeb, videoToWeb } from "../Utils/sticker";
 const StickerCmd: ICommand = {
   name: "sticker",
   description: "Transforma Uma Imagem ou Vídeo Em Figurinha.",
-  category: "fun",
+  category: "basicos",
   aliases: ["s"],
   async run(ctx, msg) {
     const jid = msg.key.remoteJid!;
