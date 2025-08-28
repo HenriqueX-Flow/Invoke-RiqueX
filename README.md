@@ -26,7 +26,7 @@ Ele oferece comandos dinâmicos, autenticação por número/QR Code e um sistema
 
 ---
 
-## 🚀 Como Instalar
+## Iniciar O Bot Em Modo Desenvolvimento
 
 ```bash
 # Clone O Repositório
@@ -36,11 +36,11 @@ cd Invoke-RiqueX
 # Instale As Dependências
 npm install
 
-# Inicie O Bot Em Modo Desenvolvimento
+# Inicie O Bot
 npm run dev
 ```
 
-### Rodando Em JavaScript
+### Rodando Em JavaScript No Modo Produção
 
 ```bash
 # Clone O Repositório 
