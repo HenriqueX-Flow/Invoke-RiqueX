@@ -1,4 +1,4 @@
-import makeWASocket, { DisconnectReason, useMultiFileAuthState } from "baileys";
+import makeWASocket, { Browsers, DisconnectReason, useMultiFileAuthState } from "baileys";
 import { TypedEventEmitter } from "./events";
 import { BotEvents, BotContext } from "./types";
 import { loadCommands } from "./commands";
@@ -20,7 +20,8 @@ export class Bot extends TypedEventEmitter<BotEvents> {
     const sock = makeWASocket({ 
       auth: state, 
       printQRInTerminal: false,
-      logger: pino({ level: "silent" })
+      logger: pino({ level: "silent" }),
+      browser: Browsers.ubuntu("Firefox")
     });
 
     this.ctx = { sock };

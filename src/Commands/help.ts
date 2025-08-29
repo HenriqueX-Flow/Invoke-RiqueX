@@ -1,38 +1,75 @@
 import { ICommand } from "../Common/types";
 import { Bot } from "../Common/bot";
 import fs from "fs";
+import moment from "moment-timezone";
+
+async function loadJimp() {
+  try {
+    // @ts-ignore
+    let JimpLib = require("jimp");
+    if (JimpLib && JimpLib.default && !JimpLib.read) JimpLib = JimpLib.default;
+    return JimpLib;
+  } catch (e) {
+    try {
+      const mod = await import("jimp");
+      return (mod as any).default || mod;
+    } catch (e2) {
+      return null;
+    }
+  }
+}
+
+const day = moment.tz("America/Fortaleza").locale("pt-BR").format("dddd");
+const date = moment.tz("America/Fortaleza").locale("pt-BR").format("DD/MM/YYYY");
+const hours = moment.tz("America/Fortaleza").locale("pt-BR").format("HH:mm");
 
 const Help: ICommand = {
   name: "help",
   description: "Mostra A Lista De Comandos",
   category: "basicos",
+  aliases: ["menu", "main"],
   async run(ctx, msg) {
     const jid = msg.key.remoteJid!;
+    const sender = msg.key.participant || msg.key.remoteJid!;
     const bot = (ctx as any).bot as Bot;
 
-   const grouped: Record<string, ICommand[]> = {};
+    const grouped: Record<string, ICommand[]> = {};
     for (const cmd of new Set(bot.commands.values())) {
       if (!grouped[cmd.category]) grouped[cmd.category] = [];
       grouped[cmd.category].push(cmd);
     }
-
-    let helpText = "Lista De Comandos:\n\n";
+    let helpText = `Nome: ${msg.pushName ? msg.pushName : "Sem Nome"}\nMenção: @${sender.split("@")[0]}\n\nHora: ${hours}\nDia: ${day}\nData: ${date}\n\n`;
     for (const category of Object.keys(grouped)) {
       helpText += `*${category.toUpperCase()}*\n`;
       for (const cmd of grouped[category]) {
-        const aliasText = cmd.aliases ? ` (aliases: ${cmd.aliases.map(a => ":" + a).join(", ")})` : "";
         helpText += `• :${cmd.name} - ${cmd.description}\n`;
       }
       helpText += "\n";
     }
 
-    await ctx.sock.sendMessage(jid, {
+    // tenta carregar jimp e gerar thumbnail segura
+    const Jimp = await loadJimp();
+    let jpegThumb: Buffer | undefined;
+    try {
+      let header = await bot.ctx.sock.profilePictureUrl(jid, "image").catch(() => null);
+      if (!header) header = "https://files.catbox.moe/y12axo.png";
+      if (Jimp && Jimp.read) {
+        const headerThumbnail = await Jimp.read(header);
+        jpegThumb = await headerThumbnail.resize(100, 100).getBufferAsync(Jimp.MIME_JPEG);
+      } else {
+        console.warn("Jimp Talvez Não Está Disponível — Vou Enviar Sem jpegThumbnail");
+      }
+    } catch (err) {
+      console.error("Não Conseguir Gerar Imagem Com Jimp:", err);
+      jpegThumb = undefined;
+    }
+
+    const message: any = {
       document: fs.readFileSync("./media/menu.pdf"),
       fileName: "Invoke RiqueX",
-      mimetype: "application/pdf",
+      mimetype: "image/jpeg",
       //@ts-ignore
       fileLength: "245000000",
-      pageCount: "245",
       caption: helpText,
       contextInfo: {
         mentionedJid: ["558888205721@s.whatsapp.net"],
@@ -46,21 +83,22 @@ const Help: ICommand = {
         externalAdReply: {
           title: "Invoke RiqueX",
           body: "© HenriqueX",
-          showAdAttribution: null,
-          thumbnailUrl: "https://files.catbox.moe/y12axo.png",
           mediaType: 1,
           //@ts-ignore
           previewType: 0,
           renderLargerThumbnail: true,
+          thumbnailUrl: "https://files.catbox.moe/y12axo.png",
           mediaUrl: "https://github.com/HenriqueX-Flow",
-          sourceApp: "https://github.com/HenriqueX-Flow",
           sourceUrl: "https://github.com/HenriqueX-Flow",
-          originalImageUrl: "https://files.catbox.moe/y12axo.png",
-          clickToWhatsappCall: true
+          originalImageUrl: "https://files.catbox.moe/y12axo.png"
         }
       }
-    }, { quoted: msg });
+    };
+
+    if (jpegThumb) message.jpegThumbnail = jpegThumb;
+
+    await ctx.sock.sendMessage(jid, message, { quoted: msg });
   }
-}
+};
 
 export default Help;
