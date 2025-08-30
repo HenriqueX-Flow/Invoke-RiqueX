@@ -1,19 +1,21 @@
-import { title } from "process";
+import fs from "fs";
 import { ICommand } from "../Common/types";
 import { sendListMsg } from "../Utils/flowInfo";
 
 const test: ICommand = {
   name: "flow",
-  description: "test",
+  help: "",
   category: "geral",
   async run(ctx, msg) {
     const jid = msg.key.remoteJid!;
     const client = ctx.sock
       await sendListMsg(client, jid, {
-      text: "Esse É Um Teste De Botões Usando A Baileys Oficial, Talvez A Mensagem Não Seja Enviada Em Grupos.",
+      text: "Escolha Um Menu",
+      media: { image: fs.readFileSync("./media/header.jpg") },
       footer: "HenriqueX",
       title: "Invoke RiqueX",
       subtitle: "HenriqueX - Invoke RiqueX",
+      quoted: msg,
       buttons: [
         {
           name: "single_select",
@@ -22,13 +24,18 @@ const test: ICommand = {
             sections: [{
               title: "Categoria",
               rows: [
-                { title: "Isso É Apenas Um Teste", id: "teste" },
-                { title: "Isso É Apenas Um Teste", id: "teste" },
+                { title: "Confi", id: "config" },
+                { title: "Jogos", id: "game" },
               ],
             }]
           }
         }
-      ]
+      ],
+      contextInfo: {
+        isForwarded: true,
+        isQuestion: true,
+        forwardingScore: 245
+      }
     })
   },
 }

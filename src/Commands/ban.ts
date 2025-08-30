@@ -3,7 +3,7 @@ import { sendReply } from "../Utils/message";
 
 const Ban: ICommand = {
   name: "ban",
-  description: "Remove O Usuário Do Grupo.",
+  help: "*<@user>*.",
   category: "admins",
   aliases: ["remove", "kick"],
   async run(ctx, msg) {

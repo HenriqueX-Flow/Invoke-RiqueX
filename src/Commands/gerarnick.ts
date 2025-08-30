@@ -4,7 +4,7 @@ import { sendReply } from "../Utils/message";
 
 const GerarNick: ICommand = {
   name: "gerarnick",
-  description: "Monta uma lista de nicks estilizados",
+  help: "*<texto>*",
   category: "basicos",
   aliases: ["nicks"],
   async run(ctx, msg, args) {

@@ -2,26 +2,27 @@ import {
   proto,
   generateWAMessageFromContent,
   generateWAMessageContent,
-  WASocket
+  WASocket,
+  AnyMessageContent
 } from "baileys";
 
 interface ListButton {
-  name: string
-  buttonParamsJson: Record<string, any> | string
+  name: string;
+  buttonParamsJson: Record<string, any> | string;
 }
 
 interface SendListOptions {
-  text?: string
-  caption?: string
-  footer?: string
-  title?: string
-  subtitle?: string
-  ai?: boolean
-  contextInfo?: proto.IContextInfo
-  buttons: ListButton[]
-  mentions?: string[]
-  quoted?: proto.IMessage
-  media?: Record<string, any>
+  text?: string;
+  caption?: string;
+  footer?: string;
+  title?: string;
+  subtitle?: string;
+  ai?: boolean;
+  contextInfo?: proto.IContextInfo;
+  buttons: ListButton[];
+  mentions?: string[];
+  quoted?: proto.IWebMessageInfo,
+  media?: AnyMessageContent;
 }
 
 export async function sendListMsg(
@@ -40,56 +41,66 @@ export async function sendListMsg(
     buttons,
     mentions = [],
     quoted,
-    media = {}
-  } = content
+    media
+  } = content;
 
-  const msg = await generateWAMessageFromContent(jid, {
-    viewOnceMessage: {
-      message: {
-        messageContextInfo: {
-          deviceListMetadata: {},
-          deviceListMetadataVersion: 2,
-        },
-        interactiveMessage: proto.Message.InteractiveMessage.create({
-          body: proto.Message.InteractiveMessage.Body.create({
-            text: text || caption || "",
-          }),
-          footer: proto.Message.InteractiveMessage.Footer.create({ text: footer }),
-          header: proto.Message.InteractiveMessage.Header.fromObject({
-            title,
-            subtitle,
-            hasMediaAttachment: Object.keys(media).length > 0,
-            ...(Object.keys(media).length > 0
-              ? await generateWAMessageContent(media, { upload: sock.waUploadToServer })
-              : {}),
-          }),
-          nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
-            buttons: buttons.map((btn) => ({
-              name: btn.name,
-              buttonParamsJson: JSON.stringify(
-                typeof btn.buttonParamsJson === "string"
-                  ? JSON.parse(btn.buttonParamsJson)
-                  : btn.buttonParamsJson
-              ),
-            })),
-          }),
-          contextInfo: {
-            ...contextInfo,
-            mentionedJid: mentions,
-            ...(quoted
-              ? {
-                  stanzaId: quoted.key?.id,
-                  remoteJid: quoted.key?.remoteJid,
-                  participant: quoted.key?.participant || quoted.key?.remoteJid,
-                  fromMe: quoted.key?.fromMe,
-                  quotedMessage: quoted.message,
-                }
-              : {}),
+  const msg = await generateWAMessageFromContent(
+    jid,
+    {
+      viewOnceMessage: {
+        message: {
+          messageContextInfo: {
+            deviceListMetadata: {},
+            deviceListMetadataVersion: 2,
           },
-        }),
+          interactiveMessage: proto.Message.InteractiveMessage.create({
+            body: proto.Message.InteractiveMessage.Body.create({
+              text: text || caption || "",
+            }),
+            footer: proto.Message.InteractiveMessage.Footer.create({
+              text: footer,
+            }),
+            header: proto.Message.InteractiveMessage.Header.fromObject({
+              title,
+              subtitle,
+              hasMediaAttachment: !!media,
+              ...(media
+                ? await generateWAMessageContent(media, {
+                    upload: sock.waUploadToServer,
+                  })
+                : {}),
+            }),
+            nativeFlowMessage:
+              proto.Message.InteractiveMessage.NativeFlowMessage.create({
+                buttons: buttons.map((btn) => ({
+                  name: btn.name,
+                  buttonParamsJson: JSON.stringify(
+                    typeof btn.buttonParamsJson === "string"
+                      ? JSON.parse(btn.buttonParamsJson)
+                      : btn.buttonParamsJson
+                  ),
+                })),
+              }),
+            contextInfo: {
+              ...contextInfo,
+              mentionedJid: mentions,
+              ...(quoted
+                ? {
+                    stanzaId: quoted.key?.id,
+                    remoteJid: quoted.key?.remoteJid,
+                    participant:
+                      quoted.key?.participant || quoted.key?.remoteJid,
+                    fromMe: quoted.key?.fromMe,
+                    quotedMessage: quoted.message,
+                  }
+                : {}),
+            },
+          }),
+        },
       },
     },
-  }, {})
+    { userJid: sock.user?.id! }
+  );
 
   return await sock.relayMessage(msg.key.remoteJid!, msg.message!, {
     messageId: msg.key.id!,
@@ -101,11 +112,13 @@ export async function sendListMsg(
           {
             tag: "interactive",
             attrs: { type: "native_flow", v: "1" },
-            content: [{ tag: "native_flow", attrs: { name: "quick_reply" } }],
+            content: [
+              { tag: "native_flow", attrs: { name: "quick_reply" } },
+            ],
           },
         ],
       },
       ...(ai ? [{ attrs: { biz_bot: "1" }, tag: "bot" }] : []),
     ],
-  })
+  });
 }

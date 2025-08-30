@@ -3,6 +3,32 @@ import { Bot } from "../Common/bot";
 import fs from "fs";
 import moment from "moment-timezone";
 
+// Função para estilizar texto
+const Styles = (text: string, style: number = 1): string => {
+  const xStr: string[] =
+    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890".split("");
+
+  const yStr: Record<number, string> = {
+    1: "ᴀʙᴄᴅᴇꜰɢʜɪᴊᴋʟᴍɴᴏᴘqʀꜱᴛᴜᴠᴡxʏᴢABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890",
+    2: "ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ１２３４５６７８９０",
+  };
+
+  type Replacer = { original: string; convert: string };
+  const replacer: Replacer[] = [];
+
+  xStr.forEach((v, i) => {
+    replacer.push({ original: v, convert: yStr[style]?.[i] ?? v });
+  });
+
+  const str = text.split("");
+  return str
+    .map((v: string) => {
+      const found = replacer.find((x) => x.original === v);
+      return found ? found.convert : v;
+    })
+    .join("");
+};
+
 async function loadJimp() {
   try {
     // @ts-ignore
@@ -25,8 +51,8 @@ const hours = moment.tz("America/Fortaleza").locale("pt-BR").format("HH:mm");
 
 const Help: ICommand = {
   name: "help",
-  description: "Mostra A Lista De Comandos",
   category: "basicos",
+  help: "",
   aliases: ["menu", "main"],
   async run(ctx, msg) {
     const jid = msg.key.remoteJid!;
@@ -38,16 +64,15 @@ const Help: ICommand = {
       if (!grouped[cmd.category]) grouped[cmd.category] = [];
       grouped[cmd.category].push(cmd);
     }
-    let helpText = `Nome: ${msg.pushName ? msg.pushName : "Sem Nome"}\nMenção: @${sender.split("@")[0]}\n\nHora: ${hours}\nDia: ${day}\nData: ${date}\n\n`;
+    let helpText = `nome: ${msg.pushName ? msg.pushName : "Sem Nome"}\nmenção: @${sender.split("@")[0]}\n\nhora: ${hours}\ndia: ${day}\ndata: ${date}\n\n`;
     for (const category of Object.keys(grouped)) {
       helpText += `*${category.toUpperCase()}*\n`;
       for (const cmd of grouped[category]) {
-        helpText += `• :${cmd.name} - ${cmd.description}\n`;
+        helpText += `• :${cmd.name} - ${cmd.help}\n`;
       }
       helpText += "\n";
     }
 
-    // tenta carregar jimp e gerar thumbnail segura
     const Jimp = await loadJimp();
     let jpegThumb: Buffer | undefined;
     try {
@@ -70,9 +95,9 @@ const Help: ICommand = {
       mimetype: "image/jpeg",
       //@ts-ignore
       fileLength: "245000000",
-      caption: helpText,
+      caption: Styles(helpText),
       contextInfo: {
-        mentionedJid: ["558888205721@s.whatsapp.net"],
+        mentionedJid: [sender, "558888205721@s.whatsapp.net"],
         forwardingScore: 245,
         isForwarded: true,
         forwardedAiBotMessageInfo: {
@@ -91,6 +116,9 @@ const Help: ICommand = {
           mediaUrl: "https://github.com/HenriqueX-Flow",
           sourceUrl: "https://github.com/HenriqueX-Flow",
           originalImageUrl: "https://files.catbox.moe/y12axo.png"
+        },
+        businessMessageForwardInfo: {
+          businessOwnerJid: "558896110835@s.whatsapp.net"
         }
       }
     };

@@ -3,7 +3,7 @@ import { sendReply } from "../Utils/message";
 
 const Promote: ICommand = {
   name: "promover",
-  description: "Promove Um A Admin Do Grupo",
+  help: "*<@user>*",
   category: "admins",
   async run(ctx, msg) {
     const jid = msg.key.remoteJid!;

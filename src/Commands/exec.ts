@@ -8,22 +8,22 @@ const OWNER_JID = "558888205721@s.whatsapp.net";
 
 const Exec: ICommand = {
   name: "exec",
-  description: "Executa Comandos No Terminal",
+  help: "*<cmd>*",
   category: "criador",
-  async run(ctx, msg, args, text) {
+  async run(ctx, msg, args) {
     const jid = msg.key.remoteJid!;
     const sender = getSender(msg);
 
     if (sender !== OWNER_JID) {
       await ctx.sock.sendMessage(jid, {
-        text: "Somente o criador pode usar"
+        text: "Somente O Criador Pode Usar"
       });
       return;
     }
 
     const cmd = args?.join(" ");
     if (!cmd) {
-      await sendReply(ctx, "Digite um comando para executar", msg);
+      await sendReply(ctx, "Digite Um Comando Para Executar", msg);
       return;
     }
 
@@ -38,13 +38,13 @@ const Exec: ICommand = {
 
       if (stdout) {
         await ctx.sock.sendMessage(jid, {
-          text: "✅ Saída:\n" + stdout.slice(0, 4000)
+          text: "SAÍDA:\n" + stdout.slice(0, 4000)
         });
       }
 
       if (stderr) {
         await ctx.sock.sendMessage(jid, {
-          text: "⚠️ Erro:\n" + stderr.slice(0, 4000)
+          text: "Erro:\n" + stderr.slice(0, 4000)
         });
       }
     }
