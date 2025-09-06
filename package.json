@@ -1,0 +1,46 @@
+{
+  "name": "invoke-riquex",
+  "version": "1.0.0",
+  "description": "Bot De WhatsApp Em TypeScript",
+  "main": "index.js",
+  "scripts": {
+    "start": "node dist/index.js",
+    "build": "tsc",
+    "watch": "tsc -w",
+    "dev": "tsx watch src/index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HenriqueX-Flow/Invoke-RiqueX.git"
+  },
+  "keywords": [
+    "bot-whatsapp",
+    "bot-baileys",
+    "baileys-md"
+  ],
+  "author": "HenriqueX",
+  "license": "MIT",
+  "dependencies": {
+    "@hapi/boom": "^10.0.1",
+    "@mengkodingan/consolefy": "^1.0.1",
+    "baileys": "latest",
+    "cheerio": "^1.1.2",
+    "express": "^5.1.0",
+    "fs": "^0.0.1-security",
+    "jimp": "^1.6.0",
+    "pino": "^9.9.4",
+    "pino-pretty": "^13.1.1",
+    "qrcode-terminal": "^0.12.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.3",
+    "@types/node": "^24.3.0",
+    "@types/qrcode-terminal": "^0.12.2",
+    "tsx": "^4.20.4",
+    "typescript": "^5.9.2"
+  },
+  "bugs": {
+    "url": "https://github.com/HenriqueX-Flow/Invoke-RiqueX/issues"
+  },
+  "homepage": "https://github.com/HenriqueX-Flow/Invoke-RiqueX#readme"
+}
