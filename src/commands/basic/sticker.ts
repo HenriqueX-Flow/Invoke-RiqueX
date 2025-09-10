@@ -3,43 +3,37 @@ import {
   downloadMedia,
   isImage,
   isVideo,
-  sendMsg,
   sendReply,
 } from "../../common/utils/message";
-import { imageToWeb, videoToWeb } from "../../common/utils/sticker";
+import { sticker } from "../../common/utils/sticker";
 
 const StickerMedia: ICommand = {
   name: "sticker",
-  help: "<midia>",
+  help: "<mídia>",
   category: "basicos",
   aliases: ["s", "f", "figurinha"],
   async execute(ctx, msg) {
     const jid = msg.key.remoteJid!;
 
-    if (!isImage(msg)) {
-      await sendReply(ctx, "Marque Uma Mídia Imagem", msg);
+    if (!isImage(msg) && !isVideo(msg)) {
+      await sendReply(ctx, "Marque uma mídia (imagem ou vídeo)", msg);
       return;
     }
 
     const buffer = await downloadMedia(msg);
     if (!buffer) {
-      await sendReply(ctx, "Ocorreu Um Erro Inesperado.", msg);
+      await sendReply(ctx, "Ocorreu um erro ao baixar a mídia.", msg);
       return;
     }
 
     try {
-      let webp: Buffer;
+      // Cria sticker a partir da mídia (imagem ou vídeo)
+      const stk = await sticker(buffer, undefined, "Invoke-RiqueX", `${msg.pushName || "HenriqueX"}`);
 
-      if (isImage(msg)) {
-        webp = await imageToWeb(buffer);
-      } else {
-        webp = await videoToWeb(buffer);
-      }
-
-      return await ctx.socket.sendMessage(jid, { sticker: webp }, { quoted: msg });
+      await ctx.socket.sendMessage(jid, { sticker: stk }, { quoted: msg });
     } catch (e) {
-      console.error(e);
-      await sendReply(ctx, "Ocorreu Um Erro", msg);
+      console.error("Erro ao criar sticker:", e);
+      await sendReply(ctx, "Ocorreu um erro ao criar a figurinha.", msg);
     }
   },
 };

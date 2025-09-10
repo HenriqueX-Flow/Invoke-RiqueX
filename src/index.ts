@@ -1,5 +1,5 @@
 import { InvokeRiqueX } from "./common/bot";
-import registerMessage from "./common/events/general";
+import registerMessage from "./common/events/message";
 import registerConnection from "./common/events/general";
 import registerGroup from "./common/events/general";
 
@@ -11,7 +11,6 @@ async function main() {
   registerMessage(bot);
   registerConnection(bot);
   registerGroup(bot);
-  
 }
 
 main();
