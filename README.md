@@ -1,9 +1,9 @@
-# OBSERVAÇÃO
-Invoke RiqueX Não É Um Bot Completo E Sim Uma Base Pra Quem Não Queira Iniciar Do Zero.
+> [!IMPORTANT]
+> Invoke RiqueX Não É Um Bot Completo E Sim Uma Base Pra Quem Não Queira Iniciar Do Zero.
 Invoke RiqueX Pode Ter Erros.
 
-## NOTA
-Invoke RiqueX É Para Todos, Não Está À Venda. Se Você Vendê-lo, O Inferno Te Espera.
+> [!NOTE]
+> Invoke RiqueX É Para Todos, Não Está À Venda. Se Você Vendê-lo, O Inferno Te Espera.
 
 <p align="center">
 <img src="./media/doc.jpg" width="35%" style="margin-left": auto;margin-right: auto;display: block;">
