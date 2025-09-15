@@ -7,7 +7,7 @@
 
 > [!CAUTION]
 > Este Projeto Não Possui Qualquer Vínculo Oficial Com O WhatsApp. Ele Foi Desenvolvido De Forma Independente Para Interações Automatizada Por Meio Da Plataforma.
-
+>
 > Não Nos Responsabilizamos Por Qualquer Uso Indevido Deste Projeto, É De Responsabilidade Exclusiva Do Usuário Garantir Que Sua Utilização Esteja Em Conformidade Com Os Termos De Uso Do WhatsApp E A Legislação Vigente.
 
 <p align="center">
@@ -77,9 +77,9 @@ Veja O [package.json](https://github.com/HenriqueX-Flow/Invoke-RiqueX/blob/main/
 
 ---
 
-## Criando Comandos.
+# Sponsor
 
-# Navegue Até src/commands
+Para Criar Comandos Navegure Até src/commands E Crie Seus Comandos Veja O Exemplo Abaixo.
 
 ```typescript
 import { ICommand } from "../common/interface";
