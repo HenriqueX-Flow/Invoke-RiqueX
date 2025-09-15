@@ -2,7 +2,7 @@ import { ICommand } from "../common/interface";
 import { InvokeRiqueX } from "../common/bot";
 import { config, generate, reSize } from "../config";
 import moment from "moment-timezone";
-import { getRandom } from "../common/utils/message";
+import { getRandom, sendReply } from "../common/utils/message";
 
 const styles = (text: string, style: number = 1): string => {
   const xStr: string[] =
@@ -40,11 +40,10 @@ const ownerMention = "@" + ownerJid.split("@")[0];
 const menu: ICommand = {
   name: "menu",
   category: "basicos",
-  aliases: ["main", "help"],
-  async execute(ctx, msg) {
+  aliases: ["main"],
+  async execute(ctx, msg, args, bot) {
     const jid = msg.key.remoteJid!;
     const sender = msg.key.participant || msg.key.remoteJid!;
-    const bot = (ctx as any).bot as InvokeRiqueX;
     const name = msg.pushName || "Sem Nome";
 
     const grouped: Record<string, ICommand[]> = {};
@@ -69,7 +68,7 @@ const menu: ICommand = {
 ├ *hora :* ${hours}
 ├ *dia :* ${day}
 ├ *data :* ${date}
-╰──────❍`;
+╰──────❍\n`;
 
     const categories = Object.keys(grouped);
 
@@ -97,7 +96,7 @@ const menu: ICommand = {
       fileName: "Invoke RiqueX",
       mimetype: "image/jpeg",
       fileLength: "245000000",
-      jpegThumbnail: await reSize("./media/doc.jpg", 300, 300),
+      jpegThumbnail: await reSize("./media/doc.jpg", 300, 300), 
       caption: styles(helpText),
       contextInfo: {
         mentionedJid: [sender, ownerJid, "0@s.whatsapp.net"],

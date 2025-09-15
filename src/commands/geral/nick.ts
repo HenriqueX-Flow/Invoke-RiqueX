@@ -6,6 +6,8 @@ const nickname: ICommand = {
   name: "nick",
   help: "<texto>",
   category: "geral",
+  intro: true,
+  usage: ":nick SeuNome",
   aliases: ["gerarnick", "nome", "nickname"],
   async execute(ctx, msg, args) {
     const prompt = args?.join(" ");

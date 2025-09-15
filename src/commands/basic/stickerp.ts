@@ -1,16 +1,25 @@
 import { ICommand } from "../../common/interface";
+import { sendReply } from "../../common/utils/message";
 import { sticker } from "../../common/utils/sticker";
 import axios from "axios";
 
 const QuotedSticker: ICommand = {
   name: "qc",
   category: "basicos",
+  intro: true,
+  usage: ":qc SeuTexto",
   help: "<texto>",
   async execute(ctx, msg, args) {
     const jid = msg.key.remoteJid!;
     const name = msg.pushName || "Sem Nome";
 
     const text = args.join(" ");
+
+    if (!text) {
+      await sendReply(ctx, "Escreva O Texto Após O Comando.", msg);
+      return;
+    }
+
     const profile = await ctx.socket
       .profilePictureUrl(jid)
       .catch(() => "https://i.ibb.co/4pDNDk1/avatar.png");
@@ -46,13 +55,10 @@ const QuotedSticker: ICommand = {
     const stk = await sticker(buffer, undefined, "Invoke-RiqueX", "Bot");
 
     if (stk) {
-      await ctx.socket.sendMessage(
-        jid,
-        { sticker: stk },
-        { quoted: msg }
-      );
+      await ctx.socket.sendMessage(jid, { sticker: stk }, { quoted: msg });
     }
   },
 };
 
 export default QuotedSticker;
+

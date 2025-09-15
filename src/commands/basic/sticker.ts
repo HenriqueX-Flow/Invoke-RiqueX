@@ -11,29 +11,35 @@ const StickerMedia: ICommand = {
   name: "sticker",
   help: "<mídia>",
   category: "basicos",
+  intro: true,
+  usage: "Marque Uma Mídia Com :sticker",
   aliases: ["s", "f", "figurinha"],
   async execute(ctx, msg) {
     const jid = msg.key.remoteJid!;
 
     if (!isImage(msg) && !isVideo(msg)) {
-      await sendReply(ctx, "Marque uma mídia (imagem ou vídeo)", msg);
+      await sendReply(ctx, "Marque Uma Mídia Imagem Ou Vídeo", msg);
       return;
     }
 
     const buffer = await downloadMedia(msg);
     if (!buffer) {
-      await sendReply(ctx, "Ocorreu um erro ao baixar a mídia.", msg);
+      await sendReply(ctx, "Ocorreu Um Erro Ao Baixar A Mídia.", msg);
       return;
     }
 
     try {
-      // Cria sticker a partir da mídia (imagem ou vídeo)
-      const stk = await sticker(buffer, undefined, "Invoke-RiqueX", `${msg.pushName || "HenriqueX"}`);
+      const stk = await sticker(
+        buffer,
+        undefined,
+        "Invoke-RiqueX",
+        `${msg.pushName || "HenriqueX"}`,
+      );
 
       await ctx.socket.sendMessage(jid, { sticker: stk }, { quoted: msg });
     } catch (e) {
-      console.error("Erro ao criar sticker:", e);
-      await sendReply(ctx, "Ocorreu um erro ao criar a figurinha.", msg);
+      console.error("Erro Ao Criar Sticker:", e);
+      await sendReply(ctx, "Ocorreu Um Erro Ao Criar A Figurinha.", msg);
     }
   },
 };

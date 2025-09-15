@@ -1,4 +1,5 @@
-import { WAMessage, WASocket } from "baileys";
+import { WAMessage, WASocket } from "baileys-mod";
+import { InvokeRiqueX } from "./bot";
 
 export interface IBotContext {
   socket: WASocket;
@@ -7,23 +8,30 @@ export interface IBotContext {
 export interface IBotEvents {
   message: {
     ctx: IBotContext;
-    msg: WAMessage
+    msg: WAMessage;
   };
   connection: {
     ctx: IBotContext;
-    status: string
+    status: string;
   };
   group: {
     ctx: IBotContext;
     action: string;
-    jid: string
+    jid: string;
   };
 }
 
 export interface ICommand {
   name: string;
   help?: string;
-  category: "admins" | "geral" | "criador" | "basicos";
+  category: "admins" | "geral" | "criador" | "basicos" | "ferramentas";
   aliases?: string[];
-  execute: (ctx: IBotContext, msg: WAMessage, args: string[]) => Promise<void>;
+  intro?: boolean;
+  usage?: string;
+  execute: (
+    ctx: IBotContext,
+    msg: WAMessage,
+    args: string[],
+    bot: InvokeRiqueX,
+  ) => Promise<void>;
 }
