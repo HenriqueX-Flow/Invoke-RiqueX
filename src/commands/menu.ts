@@ -124,6 +124,25 @@ const menu: ICommand = {
       }
     };
 
+    var load = [
+      "🌑",
+      "🌘",
+      "🌗",
+      "🌖",
+      "🌕",
+      "🌖",
+      "🌗",
+      "🌘",
+      "Invoke RiqueX"
+    ];
+
+    const sent = await ctx.socket.sendMessage(jid, { text: "Invoke RiqueX "}, { quoted: msg });
+if (!sent) return;
+const key = sent.key;
+
+    for (let i = 0; i < load.length; i++) {
+      await ctx.socket.sendMessage(jid, { text: load[i], edit: key, }, { quoted: msg });
+    }
     await ctx.socket.sendMessage(jid, {
       react: { text: getRandomReact, key: msg.key },
     });

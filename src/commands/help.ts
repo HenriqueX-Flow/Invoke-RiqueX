@@ -36,4 +36,3 @@ const HelpCommand: ICommand = {
 };
 
 export default HelpCommand;
-

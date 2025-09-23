@@ -12,6 +12,7 @@ import makeWASocket, {
 } from "baileys-mod";
 import { exec } from "child_process";
 import { Colors, Consolefy } from "@mengkodingan/consolefy";
+import { ConfigManager } from "./utils/config";
 
 const consolefy = new Consolefy({
   prefixes: { 
@@ -34,9 +35,11 @@ export class InvokeRiqueX extends TypedEventEmmiter<IBotEvents> {
   ctx!: IBotContext;
   commands = loadCommands();
   prefix = config.prefix;
+  settings: ConfigManager;
 
   constructor() {
     super();
+    this.settings = new ConfigManager();
   }
 
   async start() {

@@ -1,6 +1,13 @@
 import { WAMessage, WASocket } from "baileys-mod";
 import { InvokeRiqueX } from "./bot";
 
+export interface IBotConfig {
+  autoread: boolean;
+  autotyping: boolean;
+  publicMode: boolean;
+  anticall: boolean;
+}
+
 export interface IBotContext {
   socket: WASocket;
 }

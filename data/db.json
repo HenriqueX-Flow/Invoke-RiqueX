@@ -6,6 +6,8 @@
     "help",
     "nick",
     "toaudio",
-    "tovoz"
+    "tovoz",
+    "qc",
+    "transcrever"
   ]
 }

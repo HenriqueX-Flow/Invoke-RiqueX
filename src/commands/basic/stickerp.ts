@@ -10,7 +10,8 @@ const QuotedSticker: ICommand = {
   usage: ":qc SeuTexto",
   help: "<texto>",
   async execute(ctx, msg, args) {
-    const jid = msg.key.remoteJid!;
+    const jid = msg.key.participant || msg.key.remoteJid!;
+    const from = msg.key.remoteJid!;
     const name = msg.pushName || "Sem Nome";
 
     const text = args.join(" ");
@@ -55,10 +56,9 @@ const QuotedSticker: ICommand = {
     const stk = await sticker(buffer, undefined, "Invoke-RiqueX", "Bot");
 
     if (stk) {
-      await ctx.socket.sendMessage(jid, { sticker: stk }, { quoted: msg });
+      await ctx.socket.sendMessage(from, { sticker: stk }, { quoted: msg });
     }
   },
 };
 
 export default QuotedSticker;
-

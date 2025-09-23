@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { CheerioAPI, load } from "cheerio";
+import { Cheerio, CheerioAPI, load } from "cheerio";
 
 export interface IStyleResult {
   name: string;
