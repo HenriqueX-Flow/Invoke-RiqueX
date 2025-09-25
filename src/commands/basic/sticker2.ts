@@ -18,7 +18,7 @@ async function makeRoundImage(buffer: Buffer): Promise<Buffer> {
 
 const StickerRound: ICommand = {
   name: "stickerround",
-  help: "<imagem>",
+  help: "(imagem)",
   category: "basicos",
   aliases: ["sr", "stkrnd"],
   async execute(ctx, msg) {

@@ -5,7 +5,7 @@ import { isOwner, sendReply } from "../../common/utils/message";
 
 const sessionsTypes: ICommand = {
   name: "session",
-  help: "[opção]",
+  help: "(opção)",
   category: "criador",
   aliases: ["sessao"],
   usage: ":session info = Informações Da Sessão, :session delete = Apaga Arquivos Inúteis, :session logout = Remover Sessão",

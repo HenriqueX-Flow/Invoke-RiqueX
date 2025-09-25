@@ -3,7 +3,7 @@ import { isAdmin, isBotAdmin, isGroup, sendReply } from "../../common/utils/mess
 
 const setGroupName: ICommand = {
   name: "setnamegp",
-  help: "[nome]",
+  help: "(nome)",
   category: "admins",
   aliases: ["nomegp"],
   usage: ":setnamegp grupo de devs",

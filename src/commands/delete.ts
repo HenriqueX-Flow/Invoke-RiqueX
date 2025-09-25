@@ -3,7 +3,7 @@ import { sendReply } from "../common/utils/message";
 
 const deleteMsg: ICommand = {
   name: "deletar",
-  help: "[msg]",
+  help: "(msg)",
   category: "admins",
   aliases: ["deletar", "apagar"],
   usage: "Marque Uma Mensagem Com :deletar Para Apagar A Mensagem.",

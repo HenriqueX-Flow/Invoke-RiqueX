@@ -1,10 +1,3 @@
-> [!IMPORTANT]
-> Invoke RiqueX Não É Um Bot Completo E Sim Uma Base Pra Quem Não Queira Iniciar Do Zero.
-> Invoke RiqueX Pode Ter Erros.
-
-> [!NOTE]
-> Invoke RiqueX É Para Todos, Não Está À Venda. Se Você Vendê-lo, O Inferno Te Espera.
-
 > [!CAUTION]
 > Este Projeto Não Possui Qualquer Vínculo Oficial Com O WhatsApp. Ele Foi Desenvolvido De Forma Independente Para Interações Automatizada Por Meio Da Plataforma.
 >
@@ -103,6 +96,16 @@ const mycmd: ICommand = {
 
 export default mycmd;
 ```
+
+## Mensagem Menu Enviada Pelo Bot.
+- Após Usar :menu O Bot Envia Uma Mensagem Com Uma Imagem, Atributo De Anúncio E Botões Interativos:
+![Example](./media/menu1.jpg)
+
+- Quando Um Botão É Clicado O Bot Envia Também Rapidamente O Comando:
+![Example](./media/menu2.jpg)
+
+- Também É Possível Usar O Comando Menu E Dizer A Categoria Que Deve Ser Envia No Exemplo :menu basicos Ou :menu completo:
+![Example](./media/menu3.jpg)
 
 ---
 

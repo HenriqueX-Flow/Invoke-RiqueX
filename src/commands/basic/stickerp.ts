@@ -8,7 +8,7 @@ const QuotedSticker: ICommand = {
   category: "basicos",
   intro: true,
   usage: ":qc SeuTexto",
-  help: "<texto>",
+  help: "(texto)",
   async execute(ctx, msg, args) {
     const jid = msg.key.participant || msg.key.remoteJid!;
     const from = msg.key.remoteJid!;

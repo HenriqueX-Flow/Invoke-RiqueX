@@ -7,7 +7,7 @@ const exec = promisify(cp.exec).bind(cp);
 
 const execution: ICommand = {
   name: "exec",
-  help: "<commando>",
+  help: "(commando)",
   category: "criador",
   usage: "Execute Comandos No Terminal Exemplo :exec ls",
   async execute(ctx, msg, args) {

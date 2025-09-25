@@ -9,7 +9,7 @@ import { sticker } from "../../common/utils/sticker";
 
 const StickerMedia: ICommand = {
   name: "sticker",
-  help: "<mídia>",
+  help: "(mídia)",
   category: "basicos",
   intro: true,
   usage: "Marque Uma Mídia Com :sticker",

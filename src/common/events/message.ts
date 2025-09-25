@@ -5,6 +5,7 @@ import { InvokeRiqueX } from "../bot";
 import { shouldShowHelp, getCommandIntro } from "../help";
 import { sendReply } from "../utils/message";
 import { config } from "../../config";
+import chalk from "chalk";
 
 const lastResponse: Record<string, number> = {};
 
@@ -56,6 +57,15 @@ export default function register(bot: InvokeRiqueX) {
     const sender = msg.key.participant || msg.key.remoteJid || "";
     const user = sender.replace(/@s\.whatsapp\.net$/, "") || "Desconhecido";
     const jid = msg.key.remoteJid || "";
+    let groupName = "";
+    if (jid.endsWith("@g.us")) {
+      try {
+        const metadata = await ctx.socket.groupMetadata(jid);
+        groupName = metadata?.subject || "Desconhecido"
+      } catch {
+        groupName = "Não Conseguir Pegar O Nome Do Grupo.";
+      }
+    }
 
     const consolefy = new Consolefy({
       prefixes: { info: "EVENTO" },
@@ -71,11 +81,12 @@ export default function register(bot: InvokeRiqueX) {
       }
     }
 
-    const rawLog = JSON.stringify(msg.message, null, 2);
+    /*  const rawLog = JSON.stringify(msg.message, null, 2);
     consolefy.info(
       `${user}: ${rawLog.length > 800 ? rawLog.slice(0, 800) + " ...[TRUNCADO]" : rawLog}`,
     );
-
+    */
+ 
     const now = Date.now();
     if (lastResponse[user] && now - lastResponse[user] < 3000) return;
     lastResponse[user] = now;
@@ -119,14 +130,36 @@ export default function register(bot: InvokeRiqueX) {
       }
     }
 
-    const text =
+    let text =
       msg.message.conversation ||
       msg.message?.extendedTextMessage?.text ||
       msg.message?.imageMessage?.caption ||
       msg.message?.videoMessage?.caption ||
+      msg.message?.buttonsResponseMessage?.selectedButtonId ||
+      msg.message?.listResponseMessage?.singleSelectReply?.selectedRowId ||
       "";
 
+    if (
+      msg.message?.interactiveResponseMessage?.nativeFlowResponseMessage
+        ?.paramsJson
+    ) {
+      try {
+        const parsed = JSON.parse(
+          msg.message.interactiveResponseMessage.nativeFlowResponseMessage
+            .paramsJson,
+        );
+        text = parsed.id || text;
+      } catch (e) {
+        console.error("Erro ao parsear paramsJson:", e);
+      }
+    }
     if (!text) return;
+
+  if (msg) {
+      consolefy.info(`${user}: ${text || "Sem Texto"}`);
+      const line = (str: string) => console.log(chalk.underline(str));
+      console.log(`${line("X")}`);
+    }
 
     if (text.trim().toLowerCase() === "menu") return;
 

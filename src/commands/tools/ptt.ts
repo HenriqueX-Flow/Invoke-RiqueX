@@ -9,7 +9,7 @@ import {
 
 const tovoz: ICommand = {
   name: "tovoz",
-  help: "<vídeo|áudio>",
+  help: "(vídeo|áudio)",
   category: "ferramentas",
   intro: true,
   aliases: ["tovoice", "toptv"],

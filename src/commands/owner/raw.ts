@@ -5,7 +5,7 @@ import { reSize } from "../../config";
 const rawCmd: ICommand = {
   name: "raw",
   category: "criador",
-  help: "<msg>",
+  help: "(msg)",
   usage: "Marque Uma Mensagem Com :raw Para Obter Informações",
   async execute(ctx, msg) {
     const jid = msg.key.remoteJid!;

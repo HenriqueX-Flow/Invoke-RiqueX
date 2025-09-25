@@ -4,7 +4,7 @@ import { ICommand, IBotContext } from "../../common/interface";
 
 const stalker: ICommand = {
   name: "stalker",
-  help: "<opção>",
+  help: "(opção)",
   category: "geral",
   usage: ":stalker <numero>",
   async execute(ctx: IBotContext, msg, args) {

@@ -7,7 +7,7 @@ const activeFile = path.join(process.cwd(), "data", "active.json");
 
 const AutoRsp: ICommand = {
   name: "autorsp",
-  help: "<on/off>",
+  help: "(on/off)",
   category: "criador",
   aliases: ["auto-resp", "ar"],
   async execute(ctx, msg, args) {

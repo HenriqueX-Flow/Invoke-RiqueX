@@ -10,7 +10,7 @@ import {
 
 const setppGroup: ICommand = {
   name: "setppgp",
-  help: "[imagem]",
+  help: "(imagem)",
   category: "admins",
   aliases: ["fotogrupo"],
   usage: "Marque Uma Imagem Com :setppgp E Essa Imagem Será O Perfil Do Grupo.",

@@ -4,7 +4,7 @@ import { sendReply } from "../../common/utils/message";
 
 const nickname: ICommand = {
   name: "nick",
-  help: "<texto>",
+  help: "(texto)",
   category: "geral",
   intro: true,
   usage: ":nick SeuNome",

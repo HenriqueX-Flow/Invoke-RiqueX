@@ -3,7 +3,7 @@ import { isOwner, sendReply } from "../../common/utils/message";
 
 const botSettings: ICommand = {
   name: "config",
-  help: "[opção]",
+  help: "(opção)",
   category: "criador",
   usage: "':config opção on' Ou ':config opção off'",
   async execute(ctx, msg, args, bot) {

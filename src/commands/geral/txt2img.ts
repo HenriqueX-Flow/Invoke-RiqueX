@@ -5,7 +5,7 @@ import { reSize } from "../../config";
 
 const textToImage: ICommand = {
   name: "imagine",
-  help: "<prompt>",
+  help: "(prompt)",
   category: "geral",
   aliases: ["txttoimg", "txttoimage"],
   usage: ":imagine Uma Gato Na Estrada",

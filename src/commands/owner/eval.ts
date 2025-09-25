@@ -3,7 +3,7 @@ import { isOwner, sendReply } from "../../common/utils/message";
 
 const evalCmd: ICommand = {
   name: "eval",
-  help: "[código]",
+  help: "(code)",
   category: "criador",
   async execute(ctx, msg, args) {
     const jid = msg.key.remoteJid!;

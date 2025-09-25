@@ -3,7 +3,7 @@ import { isAdmin, isBotAdmin, isGroup, sendReply } from "../../common/utils/mess
 
 const groupSettings: ICommand = {
   name: "group",
-  help: "[opção]",
+  help: "(opção)",
   category: "admins",
   aliases: ["grupo", "gp"],
   usage: "Abre Ou Fecha O Grupo Exemplo :group fechar",

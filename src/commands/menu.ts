@@ -1,4 +1,4 @@
-import { ICommand } from "../common/interface";
+/*import { ICommand } from "../common/interface";
 import { InvokeRiqueX } from "../common/bot";
 import { config, generate, reSize } from "../config";
 import moment from "moment-timezone";
@@ -151,3 +151,4 @@ const key = sent.key;
 };
 
 export default menu;
+*/

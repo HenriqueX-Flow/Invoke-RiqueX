@@ -4,7 +4,7 @@ import { downloadMedia, isVideo, sendReply } from "../../common/utils/message";
 
 const toaudio: ICommand = {
   name: "toaudio",
-  help: "<video>",
+  help: "(video)",
   category: "ferramentas",
   intro: true,
   usage: "Marque Um Video Com :toaudio Para Transformar O Video Em Audio",

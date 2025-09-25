@@ -25,6 +25,7 @@
     "@mengkodingan/consolefy": "^1.0.1",
     "awesome-phonenumber": "^7.5.0",
     "baileys-mod": "^6.8.5",
+    "chalk": "^5.6.2",
     "cheerio": "^1.1.2",
     "express": "^5.1.0",
     "file-type": "^21.0.0",
@@ -46,6 +47,7 @@
     "@types/fluent-ffmpeg": "^2.1.27",
     "@types/node": "^24.3.0",
     "@types/qrcode-terminal": "^0.12.2",
+    "pm2": "^6.0.13",
     "tsx": "^4.20.5",
     "typescript": "^5.9.2"
   },

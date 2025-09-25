@@ -3,7 +3,7 @@ import { getCommandIntro } from "../common/help";
 
 const HelpCommand: ICommand = {
   name: "help",
-  help: "<comando>",
+  help: "(comando)",
   category: "geral",
   usage: ":help NomeDoComando",
   aliases: ["ajuda"],

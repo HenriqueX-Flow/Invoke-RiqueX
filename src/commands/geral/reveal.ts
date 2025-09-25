@@ -10,7 +10,7 @@ import {
 
 const reveal: ICommand = {
   name: "revelar",
-  help: "<midia>",
+  help: "(midia)",
   category: "geral",
   aliases: ["readviewonce"],
   async execute(ctx, msg) {

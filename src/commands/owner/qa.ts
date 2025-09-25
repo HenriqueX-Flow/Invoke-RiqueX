@@ -11,7 +11,7 @@ if (!fs.existsSync(qaFile)) {
 
 const QACommand: ICommand = {
   name: "qa",
-  help: "<add/list/remove>",
+  help: "(add/list/remove)",
   category: "criador",
   aliases: ["resposta", "pergunta"],
   async execute(ctx, msg, args) {
