@@ -56,19 +56,20 @@ npm run build
 npm start
 ```
 
----
+### Rodando Com Pm2
+```bash
+npm install -g ts-node typescript pm2
 
-## 📦 Dependências Principais
+git clone https://github.com/HenriqueX-Flow/Invoke-RiqueX.git
 
-- baileys-mod
-- typescript
-- pino
-- qrcode-terminal
-- @mengkodingan/consolefy
+cd Invoke-RiqueX
 
-Veja O [package.json](https://github.com/HenriqueX-Flow/Invoke-RiqueX/blob/main/package.json) Para A Lista Completa.
+npm install
 
----
+npm run build
+
+npm run pm2
+```
 
 > [!TIP]
 > **Para Criar Comandos Navegue Até src/commands E Crie Seus Comandos Veja O Exemplo Abaixo**
@@ -106,6 +107,18 @@ export default mycmd;
 
 - Também É Possível Usar O Comando Menu E Dizer A Categoria Que Deve Ser Enviada No Exemplo :menu basicos Ou :menu completo Como Você Ver Abaixo:
 ![Example](./media/menu3.jpg)
+
+---
+
+## 📦 Dependências Principais
+
+- baileys-mod
+- typescript
+- pino
+- qrcode-terminal
+- @mengkodingan/consolefy
+
+Veja O [package.json](https://github.com/HenriqueX-Flow/Invoke-RiqueX/blob/main/package.json) Para A Lista Completa.
 
 ---
 
