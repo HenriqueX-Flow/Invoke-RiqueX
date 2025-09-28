@@ -7,7 +7,8 @@
     "start": "node dist/index.js",
     "build": "tsc",
     "watch": "tsc -w",
-    "dev": "tsx watch src/index.ts"
+    "dev": "tsx watch src/index.ts",
+    "pm2": "pm2 start pm2.config.cjs && pm2 save && pm2 logs"
   },
   "repository": {
     "type": "git",
@@ -23,6 +24,7 @@
   "dependencies": {
     "@hapi/boom": "^10.0.1",
     "@mengkodingan/consolefy": "^1.0.1",
+    "@vitalets/google-translate-api": "^9.2.1",
     "awesome-phonenumber": "^7.5.0",
     "baileys-mod": "^6.8.5",
     "chalk": "^5.6.2",
@@ -47,6 +49,7 @@
     "@types/fluent-ffmpeg": "^2.1.27",
     "@types/node": "^24.3.0",
     "@types/qrcode-terminal": "^0.12.2",
+    "node-gtts": "^2.0.2",
     "pm2": "^6.0.13",
     "tsx": "^4.20.5",
     "typescript": "^5.9.2"

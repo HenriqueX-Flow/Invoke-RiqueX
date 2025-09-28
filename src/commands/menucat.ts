@@ -1,39 +1,11 @@
-import { type } from "os";
+import fs from "fs";
 import { ICommand } from "../common/interface";
 import { getRandom, sendReply } from "../common/utils/message";
-import fs from "fs";
 import moment from "moment-timezone";
-import { config } from "../config";
-
-const styles = (text: string, style: number = 1): string => {
-  const xStr: string[] =
-    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890".split("");
-  const yStr: Record<number, string> = {
-    1: "ᴀʙᴄᴅᴇꜰɢʜɪᴊᴋʟᴍɴᴏᴘqʀꜱᴛᴜᴠᴡxʏᴢABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890",
-    2: "ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ１２３４５６７８９０",
-  };
-
-  type Replacer = { original: string; convert: string };
-  const replacer: Replacer[] = [];
-
-  xStr.forEach((v, i) => {
-    replacer.push({ original: v, convert: yStr[style]?.[i] ?? v });
-  });
-
-  const str = text.split("");
-  return str
-    .map((v: string) => {
-      const found = replacer.find((x) => x.original === v);
-      return found ? found.convert : v;
-    })
-    .join("");
-};
+import { config, reSize } from "../config";
 
 const day = moment.tz("America/Fortaleza").locale("pt-BR").format("dddd");
-const date = moment
-  .tz("America/Fortaleza")
-  .locale("pt-BR")
-  .format("DD/MM/YYYY");
+const date = moment.tz("America/Fortaleza").locale("pt-BR").format("DD/MM/YYYY");
 const hours = moment.tz("America/Fortaleza").locale("pt-BR").format("HH:mm");
 const ownerJid = config.ownerNumber[0];
 const ownerMention = "@" + ownerJid.split("@")[0];
@@ -56,10 +28,59 @@ const menu: ICommand = {
     const jid = msg.key.remoteJid!;
     const sender = msg.key.participant || msg.key.remoteJid!;
     const name = msg.pushName || "Desconhecido";
-
+    const listDocs = ["application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "application/vnd.openxmlformats-officedocument.presentationml.presentation", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "application/pdf"]
     const category = args[0]?.toLowerCase();
     const setv = getRandom(config.listv);
     const commands = bot.commands;
+
+    const order = {
+        key: {
+          fromMe: false,
+          participant: msg.key.participant!,
+          remoteJid: msg.key.remoteJid!,
+        },
+        message: {
+          orderMessage: {
+            itemCount: 245,
+            status: 200,
+            thumbnail: await reSize("./media/doc.jpg", 300, 300),
+            surface: 200,
+            message: "Belo Produto 😈",
+            orderTitle: "Invoke RiqueX",
+            sallerJid: "0@s.whatsapp.net"
+          }
+        },
+        contextInfo: {
+          sendEphemeral: true,
+        },
+    };
+
+    const payment = {
+      key: {
+        remoteJid: msg.key.remoteJid!,
+        fromMe: false,
+        id: "Invoke RiqueX",
+        participant: msg.key.participant || msg.key.remoteJid!,
+      },
+      message: {
+        requestPaymentMessage: {
+          currencyCodeIso4217: "BRL",
+          amount1000: 10000,
+          resquestFrom: "558888205721@s.whatsapp.net",
+          noteMessage: {
+            extendedTextMessage: {
+              text: "Belo Produto 😈"
+            }
+          },
+          expiryTimestamp: 9999999,
+          amount: {
+            value: 15000,
+            offset: 10000,
+            currencyCode: "BRL"
+          }
+        }
+      }
+    }
 
     if (category === "completo") {
       const categories = ["basicos", "geral", "admins", "ferramentas", "criador"];
@@ -85,7 +106,7 @@ const menu: ICommand = {
         }
 
         for (const cmd of filtered) {
-          txt += `│ ${setv} ${cmd.name}${cmd.help ? ` - *${cmd.help}*` : ""}\n`;
+          txt += `│ ${setv} :${cmd.name}${cmd.help ? ` - *${cmd.help}*` : ""}\n`;
         }
 
         if (i === validCats.length - 1) {
@@ -93,7 +114,30 @@ const menu: ICommand = {
         }
       });
 
-      await sendReply(ctx, styles(txt), msg);
+      const message: any = {
+        document: fs.readFileSync("./media/menu.pdf"),
+        fileName: "Invoke RiqueX",
+        mimeType: getRandom(listDocs),
+        fileLength: 245000000,
+        pageCount: "245",
+        caption: txt,
+        contextInfo: {
+          isForwarded: true,
+          externalAdReply: {
+            title: "Invoke RiqueX",
+            body: "© HenriqueX-Flow",
+            thumbnailUrl: "https://files.catbox.moe/d5d2x5.jpg",
+            mediaType: 1,
+            previewType: 0,
+            renderLargerThumbnail: true,
+            mediaUrl: "https://github.com/HenriqueX-Flow",
+            sourceUrl: "https://github.com/HenriqueX-Flow"
+          }
+        }
+      }
+
+      await ctx.socket.sendMessage(jid, message, { quoted: order });
+
 
     } else if (category) {
       const filtered = uniqueCommands(
@@ -120,82 +164,90 @@ const menu: ICommand = {
 
     } else {
       const message: any = {
-        image: fs.readFileSync("./media/header.jpg"),
-        caption: `╭──❍「 *USUÁRIO* 」❍\n├ *Nome :* ${name}\n├ *Menção :* @${sender.split("@")[0]}\n╰─┬────❍\n╭─┴─❍「 *BOT* 」❍\n├ *Bot :* ${config.botName}\n├ *Powered :* @${"0@s.whatsapp.net".split("@")[0]}\n├ *Criador :* ${ownerMention}\n╰─┬────❍\n╭─┴─❍「 *Tempo* 」❍\n├ *Hora :* ${hours}\n├ *Dia :* ${day}\n├ *Data :* ${date}\n╰──────❍\n`,
-        footer: "© HenriqueX-Flow",
-        buttons: [
-          {
-            buttonId: ":dev",
-            buttonText: { displayText: "𝙲𝚁𝙸𝙰𝙳𝙾𝚁 | 𝙷𝙴𝙽𝚁𝙸𝚀𝚄𝙴𝚇" },
-            type: 1,
-          },
-          {
-          buttonId: ":ping",
-          buttonText: { displayText: "𝙿𝙸𝙽𝙶 | 𝙸𝙽𝙵𝙾" },
-          type: 1,
-          },
-          {
-            buttonId: "action",
-            buttonText: { displayText: "The Interactive Message" },
-            type: 0,
-            nativeFlowInfo: {
-              name: "single_select",
-              paramsJson: JSON.stringify({
-                title: "𝙻𝙸𝚂𝚃𝙰 𝙳𝙴 𝙼𝙴𝙽𝚄𝚂",
-                sections: [
-                  {
-                    title: "Flow De Menus",
-                    highlight_label: "© HenriqueX-Flow",
-                    rows: [
-                      {
-                        header: "Menu Completo",
-                        title: "Mostra O Menu Com Todos Os Comandos",
-                        description: "Menu Com Todos Os Comandos E Categoria",
-                        id: ":menu completo",
-                      },
-                      {
-                        header: "Menu Basicos",
-                        title: "Mostra O Menu Com Somente Comandos Da Categoria Basica",
-                        description: "Menu De Comandos Basicos",
-                        id: ":menu basicos",
-                      },
-                      {
-                        header: "Menu Geral",
-                        title: "Mostra O Menu Com Somente Comandos Da Categoria Geral",
-                        description: "Menu De Comandos Gerais",
-                        id: ":menu geral",
-                      },
-                      {
-                        header: "Menu Admins",
-                        title: "Mostra O Menu Com Somente Comandos Da Categoria Admins",
-                        description: "Menu De Comandos Admin",
-                        id: ":menu admins",
-                      },
-                    ],
-                  },
-                ],
-              }),
-            },
-          },
-        ],
-        viewOnce: true,
-        contextInfo: {
-          isForwarded: true,
-          mentionedJid: [sender, ownerJid, "0@s.whatsapp.net"],
-          externalAdReply: {
-            title: "Invoke RiqueX",
-            body: "© HenriqueX-Flow",
-            mediaType: 1,
-            previewType: 0,
-            renderLargerThumbnail: true,
-            thumbnailUrl: "https://files.catbox.moe/d5d2x5.jpg",
-            mediaUrl: "https://github.com/HenriqueX-Flow",
-            sourceUrl: "https://github.com/HenriqueX-Flow",
-          },
+        product: {
+        productImage: { url: "https://files.catbox.moe/d5d2x5.jpg" },
+        productId: "25002205439375014",
+        title: "© HenriqueX-Flow",
+        description: "Invoke RiqueX Bot",
+        salePriceAmount1000: 10000,
+        priceAmount1000: 15000,
+        currencyCode: "BRL",
+        retailerId: "HenriqueX",
+        url: null,
         },
+        businessOwnerJid: "558888205721@s.whatsapp.net",
+        caption: `╭──❍「 *USUÁRIO* 」❍\n├ *Nome :* ${name}\n├ *Menção :* @${sender.split("@")[0]}\n╰─┬────❍\n╭─┴─❍「 *BOT* 」❍\n├ *Bot :* ${config.botName}\n├ *Powered :* @${"0@s.whatsapp.net".split("@")[0]}\n├ *Criador :* ${ownerMention}\n╰─┬────❍\n╭─┴─❍「 *TEMPO* 」❍\n├ *Hora :* ${hours}\n├ *Dia :* ${day}\n├ *Data :* ${date}\n╰──────❍`,
+        footer: "© HenriqueX-Flow",
+        media: true,
+        interactiveButtons: [
+          {
+            name: "single_select",
+            buttonParamsJson: JSON.stringify({
+              title: "𝙻𝙸𝚂𝚃𝙰 𝙳𝙴 𝙼𝙴𝙽𝚄𝚂",
+              sections: [
+                {
+                  highlight_label: "© HenriqueX-Flow",
+                  rows: [
+                    {
+                      header: "Menu Completo",
+                      title: "Mostrar O Menu Completo",
+                      description: "Exibe O Menu Principal Com Todos Os Comandos",
+                      id: ":menu completo"
+                    },
+                    {
+                      header: "Menu Basicos",
+                      title: "Mostrar Os Comando Basicos",
+                      description: "Exibe Um Menu Com Somente Comandos Basicos",
+                      id: ":menu basicos"
+                    },
+                    {
+                      header: "Menu Geral",
+                      title: "Mostrar Os Comandos Da Categoria Geral",
+                      description: "Exibe Um Menu Com Somente Comandos Da Categoria Geral",
+                      id: ":menu geral"
+                    },
+                    {
+                      header: "Menu Ferramentas",
+                      title: "Mostrar Os Comandos Da Categoria Ferramentas",
+                      description: "Exibe Um Menu Com Somente Comandos Da Categoria Ferramentas",
+                      id: ":menu ferramentas",
+                    },
+                    {
+                      header: "Menu Admins",
+                      title: "Mostrar Os Comandos De Admins",
+                      description: "Exibe Um Menu Com Somente Comandos Da Categoria Admins",
+                      id: ":menu admins"
+                    },
+                    {
+                      header: "Menu Criador",
+                      title: "Mostrar Os Comandos Do Criador",
+                      description: "Exibe Um Menu Com Somente Comandos Do Criador",
+                      id: ":menu criador"
+                    }
+                  ]
+                }
+              ]
+            })
+          },
+          {
+            name: "quick_reply",
+            buttonParamsJson: JSON.stringify({
+              display_text: "𝙲𝚁𝙸𝙰𝙳𝙾𝚁 | 𝙷𝙴𝙽𝚁𝙸𝚀𝚄𝙴𝚇",
+              id: ":dev"
+            })
+          },
+          {
+            name: "quick_reply",
+            buttonParamsJson: JSON.stringify({
+              display_text: "𝙿𝙸𝙽𝙶 | 𝙸𝙽𝙵𝙾",
+              id: ":ping"
+            })
+          }
+        ],
+        mentions: [sender, ownerJid, "0@s.whatsapp.net"]
       };
 
-      await ctx.socket.sendMessage(jid, message, { quoted: msg });
+      await ctx.socket.sendMessage(jid, message, { quoted: payment });
     }
   },
 };

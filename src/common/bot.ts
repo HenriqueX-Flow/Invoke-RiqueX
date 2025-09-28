@@ -1,6 +1,7 @@
+import fs from "fs";
 import { TypedEventEmmiter } from "./events";
 import pino from "pino";
-import qrcode from "qrcode-terminal";
+import readline from "readline";
 import { Boom } from "@hapi/boom";
 import { loadCommands } from "./commands";
 import { IBotContext, IBotEvents } from "./interface";
@@ -13,6 +14,7 @@ import makeWASocket, {
 import { exec } from "child_process";
 import { Colors, Consolefy } from "@mengkodingan/consolefy";
 import { ConfigManager } from "./utils/config";
+import chalk from "chalk";
 
 const consolefy = new Consolefy({
   prefixes: { 
@@ -30,6 +32,31 @@ const consolefy = new Consolefy({
   format: "{prefix}{tag} {message}",
   tag: "HenriqueX",
 });
+
+function question(str: string): Promise<string> {
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+  });
+  return new Promise(resolve => {
+    rl.question(str, answer => {
+      rl.close();
+      resolve(answer);
+    });
+  });
+};
+
+async function getPhone(): Promise<any> {
+  if (!fs.existsSync("state/creds.json")) {
+  console.clear();
+
+  const raw = await question(chalk.green(chalk.underline("Coloque Seu Número Do WhatsApp: ")));
+
+  const number = raw.replace(/\D/g, "");
+  fs.writeFileSync("NUMBER_USER.txt", number);
+  return number;
+  }
+}
 
 export class InvokeRiqueX extends TypedEventEmmiter<IBotEvents> {
   ctx!: IBotContext;
@@ -65,11 +92,16 @@ export class InvokeRiqueX extends TypedEventEmmiter<IBotEvents> {
       const { qr, connection, lastDisconnect } = update;
       if ((connection === "connecting" && config.connectionMethod === "code" && !socket.authState.creds.registered)) {
         setTimeout(async () => {
-          let code = await socket.requestPairingCode(config.phoneNumber, "X245X245");
-          console.log(code);
-          consolefy.info("Seu Código De Pareamento:" + code);
-        }, 3000);
-      }
+          const numberToConnect = await getPhone();
+          const code = await socket.requestPairingCode(numberToConnect, "X245X245");
+
+          try {
+          consolefy.info(`Seu Código De Pareamento: ${code}`);
+          } catch (e) {
+          console.log(e);
+          }
+          }, 3000)
+          }
       if (connection === "close") {
         const reason = new Boom(lastDisconnect?.error)?.output.statusCode;
         if (reason === DisconnectReason.connectionLost) {

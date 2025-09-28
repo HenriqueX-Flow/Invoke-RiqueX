@@ -10,7 +10,7 @@
 
 # Tecnologias Utilizadas:
 
-![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E) ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white) ![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
+![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white) ![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
 
 ---
 
@@ -60,7 +60,7 @@ npm start
 
 ## 📦 Dependências Principais
 
-- baileys
+- baileys-mod
 - typescript
 - pino
 - qrcode-terminal
@@ -71,7 +71,7 @@ Veja O [package.json](https://github.com/HenriqueX-Flow/Invoke-RiqueX/blob/main/
 ---
 
 > [!TIP]
-> **Para Criar Comandos Navegure Até src/commands E Crie Seus Comandos Veja O Exemplo Abaixo**
+> **Para Criar Comandos Navegue Até src/commands E Crie Seus Comandos Veja O Exemplo Abaixo**
 
 ```typescript
 import { ICommand } from "../common/interface";
@@ -97,14 +97,14 @@ const mycmd: ICommand = {
 export default mycmd;
 ```
 
-## Mensagem Menu Enviada Pelo Bot.
-- Após Usar :menu O Bot Envia Uma Mensagem Com Uma Imagem, Atributo De Anúncio E Botões Interativos:
+## Mensagem Do Menu Enviada Pelo Bot.
+- Após Usar :menu O Bot Envia Uma Mensagem Com Uma Imagem, Texto, Atributo De Anúncio E Botões Interativos:
 ![Example](./media/menu1.jpg)
 
 - Quando Um Botão É Clicado O Bot Envia Também Rapidamente O Comando:
 ![Example](./media/menu2.jpg)
 
-- Também É Possível Usar O Comando Menu E Dizer A Categoria Que Deve Ser Envia No Exemplo :menu basicos Ou :menu completo:
+- Também É Possível Usar O Comando Menu E Dizer A Categoria Que Deve Ser Enviada No Exemplo :menu basicos Ou :menu completo Como Você Ver Abaixo:
 ![Example](./media/menu3.jpg)
 
 ---

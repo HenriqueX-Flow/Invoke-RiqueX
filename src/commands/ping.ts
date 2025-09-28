@@ -1,8 +1,6 @@
 import os from "os";
-import v8 from "v8";
 import { ICommand } from "../common/interface";
 import { sendReply } from "../common/utils/message";
-// import fetch from "node-fetch"; // Se Node < 18
 
 const formatSize = (size: number) => `${(size / 1024 / 1024).toFixed(2)} MB`;
 
@@ -22,14 +20,20 @@ const fetchJson = async (url: string) => {
   return await res.json();
 };
 
+interface CpuWithTotal extends os.CpuInfo {
+  total: number;
+}
+
 const ping: ICommand = {
   name: "ping",
   help: "",
   category: "basicos",
   async execute(ctx, msg) {
-    const cpus = os.cpus().map(cpu => {
-      cpu.total = Object.values(cpu.times).reduce((acc, t) => acc + t, 0);
-      return cpu;
+    const jid = msg.key.remoteJid!;
+
+    const cpus: CpuWithTotal[] = os.cpus().map(cpu => {
+      const total = Object.values(cpu.times).reduce((acc, t) => acc + t, 0);
+      return { ...cpu, total };
     });
 
     const cpu = cpus.reduce(
@@ -73,11 +77,11 @@ const ping: ICommand = {
 - Speed Respons: _${resp}_
 - Hostname: ${os.hostname()}
 - CPU Core: ${cpus.length}
-- Plataform: ${os.platform()}
+- Plataforma: ${os.platform()}
 - OS: ${os.version()} / ${os.release()}
 
 - IP: ${ips}
-- Region: ${myip.region} ${myip.country}
+- Região: ${myip.region} ${myip.country}
 
 Runtime: ${runtime(process.uptime())}`;
 

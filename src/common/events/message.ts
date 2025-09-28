@@ -32,6 +32,7 @@ safeReadJson(qaFile, {});
 
 const stickerReplies: Record<string, string> = {
   "0ZylIWMUFQHfiudOtk+oQen+/HOsH25CnPrbR517WUY=": "Uuuuu",
+  "Esa/vWTufpj6MiNrDE8Gma/Psj5cdC6OCkXArY7HFew=": "💀",
 };
 
 setInterval(() => {
@@ -81,11 +82,11 @@ export default function register(bot: InvokeRiqueX) {
       }
     }
 
-    /*  const rawLog = JSON.stringify(msg.message, null, 2);
+     const rawLog = JSON.stringify(msg.message, null, 2);
     consolefy.info(
       `${user}: ${rawLog.length > 800 ? rawLog.slice(0, 800) + " ...[TRUNCADO]" : rawLog}`,
     );
-    */
+    
  
     const now = Date.now();
     if (lastResponse[user] && now - lastResponse[user] < 3000) return;
@@ -136,6 +137,7 @@ export default function register(bot: InvokeRiqueX) {
       msg.message?.imageMessage?.caption ||
       msg.message?.videoMessage?.caption ||
       msg.message?.buttonsResponseMessage?.selectedButtonId ||
+      msg.message?.templateButtonReplyMessage?.selectedId ||
       msg.message?.listResponseMessage?.singleSelectReply?.selectedRowId ||
       "";
 

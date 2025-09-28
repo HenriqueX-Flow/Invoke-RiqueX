@@ -4,7 +4,7 @@ import { config } from "../../config";
 
 const ban: ICommand = {
   name: "ban",
-  help: "(@user)",
+  help: "(@usuário)",
   category: "admins",
   aliases: ["remove", "kick"],
   usage: "Mencione Ou Marque A Mensagem Do Usuário Com :ban Para Remover.",

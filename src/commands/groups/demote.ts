@@ -3,7 +3,7 @@ import { isAdmin, isBotAdmin, isGroup, sendReply } from "../../common/utils/mess
 
 const demote: ICommand = {
   name: "demote",
-  help: "(@user)",
+  help: "(@usuário)",
   category: "admins",
   aliases: ["rebaixar"],
   usage: "Mencione Ou Marque A Mensagem Do Usuário Com :demote Para Remover Da Lista De Admins Do Grupo.",

@@ -3,7 +3,7 @@ import { isAdmin, isBotAdmin, isGroup, sendReply } from "../../common/utils/mess
 
 const promote: ICommand = {
   name: "promote",
-  help: "(@user)",
+  help: "(@usuário)",
   category: "admins",
   aliases: ["promover"],
   usage: "Mencione Ou Marque A Mensagem Do Usuário Com :promote Para Promover A Admin Do Grupo.",

@@ -2,3 +2,4 @@ node_modules/
 .git
 state/
 dist/
+NUMBER_USER.txt
